@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join Trivia</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="menu-card" id="join-screen">
+      <h1 class="game-title">Join Game</h1>
+      <input type="text" id="player-name" placeholder="Enter your name" class="btn"/>
+      <input type="text" id="game-code" placeholder="Enter game code" class="btn" />
+      <button class="btn btn-primary" id="join-btn">Join</button>
+    </div>
+
+    <div class="game-content hidden" id="player-area">
+      <div class="game-header">
+        <div class="round-info">
+          <h2>Question <span id="player-question-number">1</span></h2>
+          <p id="player-question-text">Waiting for host...</p>
+        </div>
+      </div>
+
+      <div class="game-content">
+        <div class="deck-container">
+          <div class="card">
+            <div class="card-content">
+              <div id="player-options-list"></div>
+            </div>
+          </div>
+        </div>
+        <p id="answer-feedback"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="firebase-config.js"></script>
+  <script src="join.js"></script>
+</body>
+</html>
