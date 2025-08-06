@@ -1,0 +1,109 @@
+{
+    "cards": [
+      {
+        "id": "challenge-1",
+        "title": "The Memory Palace",
+        "category": "Memory Challenge",
+        "description": "Test your ability to memorize and recall information under pressure.",
+        "challenge": "Look around the room for 30 seconds, then close your eyes and name 10 specific objects you saw, including their colors."
+      },
+      {
+        "id": "challenge-2",
+        "title": "Riddle Master",
+        "category": "Logic Challenge",
+        "description": "Solve this riddle to prove your logical thinking skills.",
+        "challenge": "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?"
+      },
+      {
+        "id": "challenge-3",
+        "title": "Speed Calculator",
+        "category": "Math Challenge",
+        "description": "Quick mental math under time pressure.",
+        "challenge": "Calculate this in your head within 15 seconds: (17 × 8) + (23 × 4) - (15 × 6)"
+      },
+      {
+        "id": "challenge-4",
+        "title": "Story Weaver",
+        "category": "Creativity Challenge",
+        "description": "Create an engaging story using specific elements.",
+        "challenge": "Tell a 2-minute story that includes: a purple elephant, a time machine, and a recipe for disaster."
+      },
+      {
+        "id": "challenge-5",
+        "title": "Pattern Detective",
+        "category": "Pattern Recognition",
+        "description": "Identify the hidden pattern in this sequence.",
+        "challenge": "What comes next in this sequence: 2, 6, 12, 20, 30, ?"
+      },
+      {
+        "id": "challenge-6",
+        "title": "Word Wizard",
+        "category": "Language Challenge",
+        "description": "Demonstrate your vocabulary and word skills.",
+        "challenge": "Name 8 words that contain all 5 vowels (A, E, I, O, U) in any order."
+      },
+      {
+        "id": "challenge-7",
+        "title": "Balance Master",
+        "category": "Physical Challenge",
+        "description": "Test your balance and coordination.",
+        "challenge": "Stand on one foot with your eyes closed for 45 seconds while reciting the alphabet backwards."
+      },
+      {
+        "id": "challenge-8",
+        "title": "Code Breaker",
+        "category": "Cipher Challenge",
+        "description": "Decode this secret message.",
+        "challenge": "Decode this Caesar cipher (shift of 3): 'WKH TXLFN EURZQ IRA MXPSV RYHU WKH ODCB GRJ'"
+      },
+      {
+        "id": "challenge-9",
+        "title": "Improvisation Station",
+        "category": "Performance Challenge",
+        "description": "Think on your feet with this improvisation task.",
+        "challenge": "You're a salesperson trying to sell a broken umbrella to someone during a thunderstorm. Convince them in 60 seconds."
+      },
+      {
+        "id": "challenge-10",
+        "title": "Geography Guru",
+        "category": "Geography Challenge",
+        "description": "Test your knowledge of world geography.",
+        "challenge": "Name 5 countries that start with the letter 'B', their capitals, and one interesting fact about each."
+      },
+      {
+        "id": "challenge-11",
+        "title": "Logic Grid",
+        "category": "Logic Puzzle",
+        "description": "Solve this logic puzzle step by step.",
+        "challenge": "Three friends have different pets. Alex doesn't have a cat. The person with a dog is older than Bailey. Charlie is younger than the cat owner. Who has which pet?"
+      },
+      {
+        "id": "challenge-12",
+        "title": "Rhyme Time",
+        "category": "Poetry Challenge",
+        "description": "Create verses that rhyme perfectly.",
+        "challenge": "Compose a 4-line poem about coffee that rhymes and makes people want to drink it."
+      },
+      {
+        "id": "challenge-13",
+        "title": "Number Ninja",
+        "category": "Mental Math",
+        "description": "Advanced calculations using only your mind.",
+        "challenge": "What is 15% of 240, plus 25% of 160, minus 10% of 300?"
+      },
+      {
+        "id": "challenge-14",
+        "title": "Trivia Lightning",
+        "category": "General Knowledge",
+        "description": "Quick-fire trivia across multiple categories.",
+        "challenge": "Answer quickly: What gas do plants absorb during photosynthesis? Which planet is known as the Red Planet? Who painted the Mona Lisa?"
+      },
+      {
+        "id": "challenge-15",
+        "title": "Tongue Twister Terror",
+        "category": "Speech Challenge",
+        "description": "Say complex phrases without stumbling.",
+        "challenge": "Say this 5 times fast without mistakes: 'Six sick slick slim sycamore saplings'"
+      }
+    ]
+  }

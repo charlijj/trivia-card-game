@@ -1,0 +1,109 @@
+{
+    "cards": [
+      {
+        "id": "final-1",
+        "title": "Ultimate Multitasker",
+        "category": "Combination Challenge",
+        "description": "Combine multiple skills in one epic challenge.",
+        "challenge": "While balancing on one foot, recite a poem you create on the spot about the other players, incorporating their names and one thing you learned about them today."
+      },
+      {
+        "id": "final-2",
+        "title": "Teacher Supreme",
+        "category": "Teaching Challenge",
+        "description": "Teach others something completely new.",
+        "challenge": "Teach the group a new skill or piece of knowledge in 3 minutes. They must be able to demonstrate or explain it back to you afterwards."
+      },
+      {
+        "id": "final-3",
+        "title": "Problem Solver Extraordinaire",
+        "category": "Problem-Solving Challenge",
+        "description": "Solve a complex, multi-layered problem.",
+        "challenge": "You have 5 minutes to plan a surprise party for someone with exactly $20, no car, and only items currently in this room. Present your complete plan."
+      },
+      {
+        "id": "final-4",
+        "title": "Time Traveler's Dilemma",
+        "category": "Hypothetical Challenge",
+        "description": "Navigate complex scenarios with limited information.",
+        "challenge": "You can travel back in time once for 24 hours. Explain when you'd go, what you'd do, how you'd avoid paradoxes, and what evidence you'd bring back to prove it happened."
+      },
+      {
+        "id": "final-5",
+        "title": "Innovation Station",
+        "category": "Creative Problem-Solving",
+        "description": "Invent something the world needs.",
+        "challenge": "Design a new invention that would solve a major problem in daily life. Explain how it works, what it costs, and how you'd market it."
+      },
+      {
+        "id": "final-6",
+        "title": "Diplomatic Mission",
+        "category": "Negotiation Challenge",
+        "description": "Navigate complex social situations.",
+        "challenge": "Two players are having an argument about pineapple on pizza. You must mediate and help them reach a compromise that makes both happy."
+      },
+      {
+        "id": "final-7",
+        "title": "Memory Palace Master",
+        "category": "Advanced Memory Challenge",
+        "description": "Demonstrate exceptional memory skills.",
+        "challenge": "Study this list for 2 minutes: grocery store, purple elephant, quantum physics, grandmother's recipe, rusty bicycle, opera singer, Mount Everest, chocolate cake, thunderstorm, ancient Egypt. Recite it forwards and backwards."
+      },
+      {
+        "id": "final-8",
+        "title": "Leadership Challenge",
+        "category": "Leadership Test",
+        "description": "Lead others through a complex task.",
+        "challenge": "You're the leader of a group trying to survive on a deserted island. Assign roles to each player and explain your 30-day survival strategy."
+      },
+      {
+        "id": "final-9",
+        "title": "Rapid Fire Genius",
+        "category": "Speed Challenge",
+        "description": "Demonstrate knowledge across all categories quickly.",
+        "challenge": "Answer one question from each category in 60 seconds: Math problem, Historical date, Science fact, Literary quote, Geographic location, and Artistic movement."
+      },
+      {
+        "id": "final-10",
+        "title": "Moral Philosopher",
+        "category": "Ethical Challenge",
+        "description": "Navigate complex moral questions.",
+        "challenge": "You find a wallet with $500 and an ID but no contact info. Describe 5 different ways to handle this situation and argue for which is most ethical."
+      },
+      {
+        "id": "final-11",
+        "title": "Grand Storyteller",
+        "category": "Narrative Challenge",
+        "description": "Weave an epic tale incorporating multiple elements.",
+        "challenge": "Tell a 5-minute story that includes: each player as a character, a dragon, a mystery, a betrayal, a redemption, and a satisfying ending."
+      },
+      {
+        "id": "final-12",
+        "title": "Master Debater",
+        "category": "Debate Challenge",
+        "description": "Argue persuasively on any topic.",
+        "challenge": "Flip a coin. Heads: Argue that homework should be banned. Tails: Argue that everyone should have homework every day. You have 3 minutes to convince the group."
+      },
+      {
+        "id": "final-13",
+        "title": "Pattern Recognition Guru",
+        "category": "Advanced Logic Challenge",
+        "description": "Identify complex patterns and relationships.",
+        "challenge": "Look at the players around you and identify 3 different patterns: physical, behavioral, and coincidental. Explain each pattern and what it might mean."
+      },
+      {
+        "id": "final-14",
+        "title": "Resource Management",
+        "category": "Strategy Challenge",
+        "description": "Optimize limited resources for maximum benefit.",
+        "challenge": "You're managing a space station with 4 crew members, limited oxygen, and a 3-day journey. Create a detailed plan for resource allocation and emergency protocols."
+      },
+      {
+        "id": "final-15",
+        "title": "The Ultimate Synthesis",
+        "category": "Integration Challenge",
+        "description": "Combine everything you've learned into one final demonstration.",
+        "challenge": "Create a 60-second performance that demonstrates at least one skill from each of the previous rounds: a physical challenge, a mental puzzle, a knowledge question, and creative storytelling."
+      }
+    ]
+  }

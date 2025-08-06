@@ -1,0 +1,109 @@
+{
+    "cards": [
+      {
+        "id": "skill-1",
+        "title": "Origami Expert",
+        "category": "Crafting Skill",
+        "description": "Test your paper folding abilities.",
+        "challenge": "Using any piece of paper available, fold a paper crane in under 3 minutes. It must be recognizable and able to 'fly' when gently tossed."
+      },
+      {
+        "id": "skill-2",
+        "title": "Drawing Dynamo",
+        "category": "Artistic Skill",
+        "description": "Showcase your artistic abilities under pressure.",
+        "challenge": "Draw a self-portrait using your non-dominant hand in 2 minutes. Others must be able to recognize it's supposed to be you."
+      },
+      {
+        "id": "skill-3",
+        "title": "Juggling Genius",
+        "category": "Coordination Skill",
+        "description": "Test your hand-eye coordination.",
+        "challenge": "Juggle 3 similar objects (balls, oranges, etc.) for 30 seconds straight, or teach someone else how to juggle if items aren't available."
+      },
+      {
+        "id": "skill-4",
+        "title": "Beatbox Virtuoso",
+        "category": "Musical Skill",
+        "description": "Create music with just your voice.",
+        "challenge": "Perform a 30-second beatbox routine that includes bass, snare, and hi-hat sounds, plus one special effect."
+      },
+      {
+        "id": "skill-5",
+        "title": "Speed Typing Test",
+        "category": "Technical Skill",
+        "description": "Demonstrate your typing prowess.",
+        "challenge": "Type this sentence perfectly without looking at the keyboard: 'The quick brown fox jumps over the lazy dog 123 times!' (Include the exclamation and number)"
+      },
+      {
+        "id": "skill-6",
+        "title": "Knot Master",
+        "category": "Practical Skill",
+        "description": "Tie knots like a pro sailor.",
+        "challenge": "Using any rope, string, or shoelaces, tie and name 3 different types of knots, explaining what each is used for."
+      },
+      {
+        "id": "skill-7",
+        "title": "Card Trick Magician",
+        "category": "Entertainment Skill",
+        "description": "Perform magic with a deck of cards.",
+        "challenge": "Perform a card trick that amazes at least one other player. Explain how it's done after the performance."
+      },
+      {
+        "id": "skill-8",
+        "title": "Speed Stacking",
+        "category": "Dexterity Skill",
+        "description": "Stack objects with lightning speed.",
+        "challenge": "Using cups, books, or similar objects, build a pyramid stack of at least 10 items and take it down in under 45 seconds total."
+      },
+      {
+        "id": "skill-9",
+        "title": "Voice Impressionist",
+        "category": "Performance Skill",
+        "description": "Mimic voices and sounds perfectly.",
+        "challenge": "Do impressions of 3 different celebrities, cartoon characters, or animals. Others must guess who/what you're imitating."
+      },
+      {
+        "id": "skill-10",
+        "title": "Whistling Wonder",
+        "category": "Musical Skill",
+        "description": "Create melodies with just your whistling.",
+        "challenge": "Whistle the tune of a popular song for 30 seconds. It must be recognizable enough for others to name the song."
+      },
+      {
+        "id": "skill-11",
+        "title": "Calligraphy Artist",
+        "category": "Writing Skill",
+        "description": "Write beautifully by hand.",
+        "challenge": "Write your full name in the most beautiful handwriting possible, then teach someone else how to improve their handwriting."
+      },
+      {
+        "id": "skill-12",
+        "title": "Cooking Quick-Fix",
+        "category": "Culinary Skill",
+        "description": "Create something delicious on the spot.",
+        "challenge": "Using only ingredients available nearby, create a simple snack or drink recipe and make it for others to taste."
+      },
+      {
+        "id": "skill-13",
+        "title": "Photography Pro",
+        "category": "Visual Skill",
+        "description": "Capture the perfect moment.",
+        "challenge": "Take 5 creative photos using any camera/phone showing different techniques: close-up, action, portrait, landscape, and artistic angle."
+      },
+      {
+        "id": "skill-14",
+        "title": "Balance Beam",
+        "category": "Physical Skill",
+        "description": "Demonstrate perfect balance and grace.",
+        "challenge": "Walk in a perfectly straight line heel-to-toe for 20 steps, then turn around and do it backwards with your eyes closed."
+      },
+      {
+        "id": "skill-15",
+        "title": "Speed Reading",
+        "category": "Cognitive Skill",
+        "description": "Read and comprehend at lightning speed.",
+        "challenge": "Speed-read a page from any book in 60 seconds, then summarize the main points in your own words for the group."
+      }
+    ]
+  }

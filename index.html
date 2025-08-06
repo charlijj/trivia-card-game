@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Card Game</title>
+    <link rel="stylesheet" href="/var/www/the_game/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Start Menu -->
+        <div id="start-menu" class="screen active">
+            <div class="menu-card">
+                <h1 class="game-title">Custom Card Game</h1>
+                <div class="player-selection">
+                    <label for="player-count">Number of Players:</label>
+                    <select id="player-count">
+                        <option value="2">2 Players</option>
+                        <option value="3">3 Players</option>
+                        <option value="4" selected>4 Players</option>
+                        <option value="5">5 Players</option>
+                        <option value="6">6 Players</option>
+                    </select>
+                </div>
+                <button id="start-game" class="btn btn-primary">Start Game</button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="round-info">
+                    <h2>Round <span id="current-round">1</span> of 4</h2>
+                    <p id="round-description">Challenge Round</p>
+                </div>
+                <div class="scores-toggle">
+                    <button id="toggle-scores" class="btn btn-secondary">Show Scores</button>
+                </div>
+            </div>
+
+            <div class="scores-panel" id="scores-panel">
+                <h3>Current Scores</h3>
+                <div id="scores-list"></div>
+            </div>
+
+            <div class="game-content">
+                <div class="current-player">
+                    <h3><span id="current-player-name">Player 1</span>'s Turn</h3>
+                </div>
+
+                <div class="deck-container">
+                    <div id="deck" class="deck">
+                        <div class="card-back">Draw Card</div>
+                    </div>
+                </div>
+
+                <div id="drawn-card" class="drawn-card hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <span id="card-category"></span>
+                        </div>
+                        <div class="card-content">
+                            <h4 id="card-title"></h4>
+                            <p id="card-description"></p>
+                            <div id="card-challenge" class="card-challenge"></div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button id="pass-btn" class="btn btn-success">Pass ✓</button>
+                        <button id="fail-btn" class="btn btn-danger">Fail ✗</button>
+                    </div>
+                </div>
+
+                <div class="round-progress">
+                    <h4>Round Progress</h4>
+                    <div id="progress-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="screen">
+            <div class="game-over-card">
+                <h1>Game Complete!</h1>
+                <div id="final-scores"></div>
+                <div id="winner-announcement"></div>
+                <button id="new-game" class="btn btn-primary">New Game</button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+{
+    "cards": [
+      {
+        "id": "knowledge-1",
+        "title": "Science Spectacular",
+        "category": "Science Knowledge",
+        "description": "Demonstrate your understanding of scientific principles.",
+        "challenge": "Explain the water cycle in detail, including at least 5 different stages, and give an example of how human activities affect each stage."
+      },
+      {
+        "id": "knowledge-2",
+        "title": "Historical Timeline",
+        "category": "History Knowledge",
+        "description": "Navigate through the corridors of time.",
+        "challenge": "Place these events in chronological order and give approximate dates: Fall of Roman Empire, American Civil War, World War I, Renaissance, Industrial Revolution."
+      },
+      {
+        "id": "knowledge-3",
+        "title": "Literature Legends",
+        "category": "Literature Knowledge",
+        "description": "Show your knowledge of great literary works.",
+        "challenge": "Name the authors of these classic works: '1984', 'Pride and Prejudice', 'To Kill a Mockingbird', 'The Great Gatsby', and 'Romeo and Juliet'."
+      },
+      {
+        "id": "knowledge-4",
+        "title": "Mathematical Mysteries",
+        "category": "Mathematics Knowledge",
+        "description": "Solve complex mathematical concepts.",
+        "challenge": "Explain what pi (π) represents, give its value to 5 decimal places, and describe 3 real-world applications where pi is essential."
+      },
+      {
+        "id": "knowledge-5",
+        "title": "Geography Master",
+        "category": "Geography Knowledge",
+        "description": "Navigate the world with your geographical expertise.",
+        "challenge": "Name all 7 continents, the highest mountain on each continent, and one unique geographical feature of each."
+      },
+      {
+        "id": "knowledge-6",
+        "title": "Art Appreciation",
+        "category": "Art Knowledge",
+        "description": "Demonstrate your knowledge of art and artists.",
+        "challenge": "Identify the artistic movements and describe the key characteristics of: Impressionism, Surrealism, and Abstract Expressionism. Name one famous artist from each."
+      },
+      {
+        "id": "knowledge-7",
+        "title": "Technology Timeline",
+        "category": "Technology Knowledge",
+        "description": "Trace the evolution of human technology.",
+        "challenge": "Explain how the Internet works in simple terms, including what happens when you type a website address and press enter."
+      },
+      {
+        "id": "knowledge-8",
+        "title": "Biology Breakdown",
+        "category": "Biology Knowledge",
+        "description": "Explore the complexities of life itself.",
+        "challenge": "Explain the process of photosynthesis, including the reactants, products, and why it's essential for life on Earth."
+      },
+      {
+        "id": "knowledge-9",
+        "title": "Political Systems",
+        "category": "Political Knowledge",
+        "description": "Navigate the world of government and politics.",
+        "challenge": "Compare and contrast democracy, monarchy, and republic forms of government. Give a modern example of each."
+      },
+      {
+        "id": "knowledge-10",
+        "title": "Economic Principles",
+        "category": "Economics Knowledge",
+        "description": "Understand how money and markets work.",
+        "challenge": "Explain supply and demand using a real-world example, and describe how inflation affects everyday purchases."
+      },
+      {
+        "id": "knowledge-11",
+        "title": "Space Exploration",
+        "category": "Astronomy Knowledge",
+        "description": "Journey through the cosmos with your knowledge.",
+        "challenge": "Name the planets in our solar system in order from the sun, and give one interesting fact about each planet."
+      },
+      {
+        "id": "knowledge-12",
+        "title": "Music Theory",
+        "category": "Music Knowledge",
+        "description": "Demonstrate your understanding of musical concepts.",
+        "challenge": "Explain what an octave is, name the notes in a C major scale, and describe the difference between major and minor keys."
+      },
+      {
+        "id": "knowledge-13",
+        "title": "World Languages",
+        "category": "Language Knowledge",
+        "description": "Showcase your linguistic knowledge.",
+        "challenge": "Say 'Hello' and 'Thank you' in 5 different languages, and explain which language family each belongs to."
+      },
+      {
+        "id": "knowledge-14",
+        "title": "Philosophy Fundamentals",
+        "category": "Philosophy Knowledge",
+        "description": "Explore deep questions about existence and knowledge.",
+        "challenge": "Explain the philosophical question 'What is the meaning of life?' and summarize how at least two different philosophical schools might answer it."
+      },
+      {
+        "id": "knowledge-15",
+        "title": "Environmental Science",
+        "category": "Environmental Knowledge",
+        "description": "Understand our planet's ecological systems.",
+        "challenge": "Explain climate change, its primary causes, and describe 5 specific actions individuals can take to reduce their environmental impact."
+      }
+    ]
+  }
