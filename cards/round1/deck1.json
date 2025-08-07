@@ -1,109 +1,229 @@
 {
-    "cards": [
-      {
-        "id": "challenge-1",
-        "title": "The Memory Palace",
-        "category": "Memory Challenge",
-        "description": "Test your ability to memorize and recall information under pressure.",
-        "challenge": "Look around the room for 30 seconds, then close your eyes and name 10 specific objects you saw, including their colors."
-      },
-      {
-        "id": "challenge-2",
-        "title": "Riddle Master",
-        "category": "Logic Challenge",
-        "description": "Solve this riddle to prove your logical thinking skills.",
-        "challenge": "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?"
-      },
-      {
-        "id": "challenge-3",
-        "title": "Speed Calculator",
-        "category": "Math Challenge",
-        "description": "Quick mental math under time pressure.",
-        "challenge": "Calculate this in your head within 15 seconds: (17 × 8) + (23 × 4) - (15 × 6)"
-      },
-      {
-        "id": "challenge-4",
-        "title": "Story Weaver",
-        "category": "Creativity Challenge",
-        "description": "Create an engaging story using specific elements.",
-        "challenge": "Tell a 2-minute story that includes: a purple elephant, a time machine, and a recipe for disaster."
-      },
-      {
-        "id": "challenge-5",
-        "title": "Pattern Detective",
-        "category": "Pattern Recognition",
-        "description": "Identify the hidden pattern in this sequence.",
-        "challenge": "What comes next in this sequence: 2, 6, 12, 20, 30, ?"
-      },
-      {
-        "id": "challenge-6",
-        "title": "Word Wizard",
-        "category": "Language Challenge",
-        "description": "Demonstrate your vocabulary and word skills.",
-        "challenge": "Name 8 words that contain all 5 vowels (A, E, I, O, U) in any order."
-      },
-      {
-        "id": "challenge-7",
-        "title": "Balance Master",
-        "category": "Physical Challenge",
-        "description": "Test your balance and coordination.",
-        "challenge": "Stand on one foot with your eyes closed for 45 seconds while reciting the alphabet backwards."
-      },
-      {
-        "id": "challenge-8",
-        "title": "Code Breaker",
-        "category": "Cipher Challenge",
-        "description": "Decode this secret message.",
-        "challenge": "Decode this Caesar cipher (shift of 3): 'WKH TXLFN EURZQ IRA MXPSV RYHU WKH ODCB GRJ'"
-      },
-      {
-        "id": "challenge-9",
-        "title": "Improvisation Station",
-        "category": "Performance Challenge",
-        "description": "Think on your feet with this improvisation task.",
-        "challenge": "You're a salesperson trying to sell a broken umbrella to someone during a thunderstorm. Convince them in 60 seconds."
-      },
-      {
-        "id": "challenge-10",
-        "title": "Geography Guru",
-        "category": "Geography Challenge",
-        "description": "Test your knowledge of world geography.",
-        "challenge": "Name 5 countries that start with the letter 'B', their capitals, and one interesting fact about each."
-      },
-      {
-        "id": "challenge-11",
-        "title": "Logic Grid",
-        "category": "Logic Puzzle",
-        "description": "Solve this logic puzzle step by step.",
-        "challenge": "Three friends have different pets. Alex doesn't have a cat. The person with a dog is older than Bailey. Charlie is younger than the cat owner. Who has which pet?"
-      },
-      {
-        "id": "challenge-12",
-        "title": "Rhyme Time",
-        "category": "Poetry Challenge",
-        "description": "Create verses that rhyme perfectly.",
-        "challenge": "Compose a 4-line poem about coffee that rhymes and makes people want to drink it."
-      },
-      {
-        "id": "challenge-13",
-        "title": "Number Ninja",
-        "category": "Mental Math",
-        "description": "Advanced calculations using only your mind.",
-        "challenge": "What is 15% of 240, plus 25% of 160, minus 10% of 300?"
-      },
-      {
-        "id": "challenge-14",
-        "title": "Trivia Lightning",
-        "category": "General Knowledge",
-        "description": "Quick-fire trivia across multiple categories.",
-        "challenge": "Answer quickly: What gas do plants absorb during photosynthesis? Which planet is known as the Red Planet? Who painted the Mona Lisa?"
-      },
-      {
-        "id": "challenge-15",
-        "title": "Tongue Twister Terror",
-        "category": "Speech Challenge",
-        "description": "Say complex phrases without stumbling.",
-        "challenge": "Say this 5 times fast without mistakes: 'Six sick slick slim sycamore saplings'"
-      }
-    ]
-  }
+  "cards": [
+    {
+      "id": "trivia-1",
+      "title": "World Geography",
+      "category": "Geography",
+      "description": "Test your knowledge of world capitals.",
+      "challenge": "What is the capital of Australia?",
+      "correctAnswer": "Canberra",
+      "options": ["Sydney", "Melbourne", "Canberra", "Perth"]
+    },
+    {
+      "id": "trivia-2",
+      "title": "Science Facts",
+      "category": "Science",
+      "description": "Basic chemistry knowledge.",
+      "challenge": "What is the chemical symbol for gold?",
+      "correctAnswer": "Au",
+      "options": ["Go", "Au", "Gd", "Ag"]
+    },
+    {
+      "id": "trivia-3",
+      "title": "Movie Trivia",
+      "category": "Entertainment",
+      "description": "Classic movie knowledge.",
+      "challenge": "Who directed the movie 'Jaws'?",
+      "correctAnswer": "Steven Spielberg",
+      "options": ["George Lucas", "Steven Spielberg", "Martin Scorsese", "Francis Ford Coppola"]
+    },
+    {
+      "id": "trivia-4",
+      "title": "Mathematics",
+      "category": "Math",
+      "description": "Basic algebra.",
+      "challenge": "What is the square root of 144?",
+      "correctAnswer": "12",
+      "options": ["10", "11", "12", "14"]
+    },
+    {
+      "id": "trivia-5",
+      "title": "World History",
+      "category": "History",
+      "description": "Ancient civilizations.",
+      "challenge": "Which ancient wonder of the world was located in Alexandria?",
+      "correctAnswer": "The Lighthouse of Alexandria",
+      "options": ["The Colossus of Rhodes", "The Lighthouse of Alexandria", "The Temple of Artemis", "The Mausoleum at Halicarnassus"]
+    },
+    {
+      "id": "trivia-6",
+      "title": "Sports Knowledge",
+      "category": "Sports",
+      "description": "Olympic Games trivia.",
+      "challenge": "In which city were the 2012 Summer Olympics held?",
+      "correctAnswer": "London",
+      "options": ["Beijing", "London", "Rio de Janeiro", "Tokyo"]
+    },
+    {
+      "id": "trivia-7",
+      "title": "Literature",
+      "category": "Books",
+      "description": "Classic literature knowledge.",
+      "challenge": "Who wrote the novel '1984'?",
+      "correctAnswer": "George Orwell",
+      "options": ["Aldous Huxley", "George Orwell", "Ray Bradbury", "Kurt Vonnegut"]
+    },
+    {
+      "id": "trivia-8",
+      "title": "Animal Kingdom",
+      "category": "Nature",
+      "description": "Wildlife facts.",
+      "challenge": "What is the largest mammal in the world?",
+      "correctAnswer": "Blue Whale",
+      "options": ["African Elephant", "Blue Whale", "Giraffe", "Polar Bear"]
+    },
+    {
+      "id": "trivia-9",
+      "title": "Technology",
+      "category": "Tech",
+      "description": "Computing history.",
+      "challenge": "Who founded Microsoft?",
+      "correctAnswer": "Bill Gates and Paul Allen",
+      "options": ["Steve Jobs and Steve Wozniak", "Bill Gates and Paul Allen", "Larry Page and Sergey Brin", "Mark Zuckerberg and Eduardo Saverin"]
+    },
+    {
+      "id": "trivia-10",
+      "title": "Food & Culture",
+      "category": "Culture",
+      "description": "International cuisine.",
+      "challenge": "What is the main ingredient in traditional Japanese miso soup?",
+      "correctAnswer": "Soybean paste",
+      "options": ["Rice", "Seaweed", "Soybean paste", "Fish stock"]
+    },
+    {
+      "id": "trivia-11",
+      "title": "Space Exploration",
+      "category": "Science",
+      "description": "Astronomy and space facts.",
+      "challenge": "Which planet is known as the 'Red Planet'?",
+      "correctAnswer": "Mars",
+      "options": ["Venus", "Jupiter", "Mars", "Saturn"]
+    },
+    {
+      "id": "trivia-12",
+      "title": "Art History",
+      "category": "Arts",
+      "description": "Famous paintings and artists.",
+      "challenge": "Who painted 'The Starry Night'?",
+      "correctAnswer": "Vincent van Gogh",
+      "options": ["Pablo Picasso", "Claude Monet", "Vincent van Gogh", "Salvador Dalí"]
+    },
+    {
+      "id": "trivia-13",
+      "title": "Music Legends",
+      "category": "Music",
+      "description": "Classic rock knowledge.",
+      "challenge": "Which band released the album 'Abbey Road'?",
+      "correctAnswer": "The Beatles",
+      "options": ["The Rolling Stones", "Led Zeppelin", "The Beatles", "Pink Floyd"]
+    },
+    {
+      "id": "trivia-14",
+      "title": "World Languages",
+      "category": "Language",
+      "description": "International language facts.",
+      "challenge": "Which language has the most native speakers worldwide?",
+      "correctAnswer": "Mandarin Chinese",
+      "options": ["English", "Spanish", "Mandarin Chinese", "Hindi"]
+    },
+    {
+      "id": "trivia-15",
+      "title": "Human Body",
+      "category": "Biology",
+      "description": "Basic anatomy knowledge.",
+      "challenge": "How many bones are in an adult human body?",
+      "correctAnswer": "206",
+      "options": ["196", "206", "216", "226"]
+    },
+    {
+      "id": "trivia-16",
+      "title": "Currency Facts",
+      "category": "Economics",
+      "description": "World currencies.",
+      "challenge": "What is the currency of Japan?",
+      "correctAnswer": "Yen",
+      "options": ["Won", "Yuan", "Yen", "Rupee"]
+    },
+    {
+      "id": "trivia-17",
+      "title": "Ocean Knowledge",
+      "category": "Geography",
+      "description": "World's oceans.",
+      "challenge": "Which is the deepest ocean trench?",
+      "correctAnswer": "Mariana Trench",
+      "options": ["Puerto Rico Trench", "Japan Trench", "Mariana Trench", "Peru-Chile Trench"]
+    },
+    {
+      "id": "trivia-18",
+      "title": "Inventions",
+      "category": "History",
+      "description": "Famous inventors and their creations.",
+      "challenge": "Who invented the telephone?",
+      "correctAnswer": "Alexander Graham Bell",
+      "options": ["Thomas Edison", "Nikola Tesla", "Alexander Graham Bell", "Benjamin Franklin"]
+    },
+    {
+      "id": "trivia-19",
+      "title": "Video Games",
+      "category": "Gaming",
+      "description": "Classic video game knowledge.",
+      "challenge": "What is the best-selling video game of all time?",
+      "correctAnswer": "Minecraft",
+      "options": ["Tetris", "Grand Theft Auto V", "Minecraft", "Super Mario Bros."]
+    },
+    {
+      "id": "trivia-20",
+      "title": "Environmental Science",
+      "category": "Environment",
+      "description": "Climate and ecology facts.",
+      "challenge": "What gas makes up approximately 78% of Earth's atmosphere?",
+      "correctAnswer": "Nitrogen",
+      "options": ["Oxygen", "Carbon dioxide", "Nitrogen", "Argon"]
+    },
+    {
+      "id": "trivia-21",
+      "title": "Fashion History",
+      "category": "Fashion",
+      "description": "Iconic fashion designers.",
+      "challenge": "Which designer created the 'little black dress'?",
+      "correctAnswer": "Coco Chanel",
+      "options": ["Christian Dior", "Yves Saint Laurent", "Coco Chanel", "Giorgio Armani"]
+    },
+    {
+      "id": "trivia-22",
+      "title": "Mythology",
+      "category": "Culture",
+      "description": "Ancient myths and legends.",
+      "challenge": "In Greek mythology, who is the king of the gods?",
+      "correctAnswer": "Zeus",
+      "options": ["Poseidon", "Hades", "Apollo", "Zeus"]
+    },
+    {
+      "id": "trivia-23",
+      "title": "Architecture",
+      "category": "Arts",
+      "description": "Famous buildings and structures.",
+      "challenge": "In which country is Machu Picchu located?",
+      "correctAnswer": "Peru",
+      "options": ["Chile", "Bolivia", "Peru", "Ecuador"]
+    },
+    {
+      "id": "trivia-24",
+      "title": "Time Zones",
+      "category": "Geography",
+      "description": "World time zones.",
+      "challenge": "How many time zones does Russia span?",
+      "correctAnswer": "11",
+      "options": ["9", "10", "11", "12"]
+    },
+    {
+      "id": "trivia-25",
+      "title": "Nobel Prizes",
+      "category": "Science",
+      "description": "Famous Nobel Prize winners.",
+      "challenge": "Who was the first woman to win a Nobel Prize?",
+      "correctAnswer": "Marie Curie",
+      "options": ["Rosalind Franklin", "Dorothy Hodgkin", "Marie Curie", "Barbara McClintock"]
+    }
+  ]
+}
