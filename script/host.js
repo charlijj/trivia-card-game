@@ -18,6 +18,8 @@ class TriviaGameHost {
     this.currentQuestionIndex = 0;
     this.timerInterval = null;
     this.timerSeconds = 30;
+    this.timerRunning = false;
+    this.timerStartTime = null;
     this.gameState = 'lobby';
     this.players = {};
     this.listeners = [];
@@ -26,7 +28,7 @@ class TriviaGameHost {
       questionTime: 30,
       totalQuestions: 10,
       pointsForCorrect: 100,
-      pointsForSpeed: 50 // bonus points for quick answers
+      pointsForSpeed: 50
     };
 
     this.init();
@@ -58,10 +60,12 @@ class TriviaGameHost {
       
       for (const file of deckFiles) {
         try {
-          const response = await fetch(`../cards/round1/${file}`);
+          const response = await fetch(`./cards/round1/${file}`);
           if (response.ok) {
             const data = await response.json();
-            allCards.push(...data.cards);
+            if (data?.cards && Array.isArray(data.cards)) {
+              allCards.push(...data.cards);
+            }
           }
         } catch (err) {
           console.warn(`Failed to load ${file}:`, err);
@@ -69,12 +73,15 @@ class TriviaGameHost {
       }
       
       if (allCards.length === 0) {
-        // Fallback deck if files don't load
         allCards.push(...this.getFallbackDeck());
       }
       
-      this.deck = this.shuffleArray(allCards).slice(0, this.gameSettings.totalQuestions);
-      console.log(`Loaded ${this.deck.length} questions`);
+      const validCards = allCards.filter(card => 
+        card.challenge && card.correctAnswer && card.options?.length >= 2
+      );
+      
+      this.deck = this.shuffleArray(validCards).slice(0, this.gameSettings.totalQuestions);
+      console.log(`Loaded ${this.deck.length} valid questions`);
     } catch (error) {
       console.error('Error loading deck:', error);
       this.deck = this.getFallbackDeck();
@@ -116,21 +123,24 @@ class TriviaGameHost {
       };
 
       await set(this.gameRef, gameData);
-      
+
+      document.getElementById('game-code-section').classList.remove('hidden');
+      document.getElementById('lobby-section').classList.remove('hidden');
       // Set up real-time listeners
       this.setupListeners();
-      
+
       // Show start button and hide create button
       document.getElementById('start-game').classList.remove('hidden');
       document.getElementById('create-game').disabled = true;
       document.getElementById('create-game').textContent = 'Game Created';
-      
+
       this.showNotification('Game created successfully!', 'success');
     } catch (error) {
       console.error('Error creating game:', error);
       this.showNotification('Failed to create game. Please try again.', 'error');
     }
   }
+
 
   setupListeners() {
     // Listen for players joining/leaving
@@ -191,7 +201,9 @@ class TriviaGameHost {
     }
 
     try {
+      // CRITICAL FIX: Set game state to 'starting' first
       await update(this.gameRef, { state: 'starting' });
+      this.gameState = 'starting'; // Update local state immediately
       
       // Hide lobby, show game
       document.getElementById('lobby-menu').classList.add('hidden');
@@ -221,12 +233,16 @@ class TriviaGameHost {
       } else {
         clearInterval(countdownInterval);
         document.body.removeChild(countdownEl);
+        // CRITICAL FIX: Load first question after countdown
         this.loadNextQuestion();
       }
     }, 1000);
   }
 
   async loadNextQuestion() {
+    // Clear any existing timer first
+    this.clearAllTimers();
+    
     if (this.currentQuestionIndex >= this.deck.length) {
       this.endGame();
       return;
@@ -234,6 +250,7 @@ class TriviaGameHost {
 
     const question = this.deck[this.currentQuestionIndex];
     this.questionStartTime = Date.now();
+    this.timerStartTime = this.questionStartTime;
 
     // Generate options if not provided
     const options = question.options || this.generateOptions(question);
@@ -246,25 +263,37 @@ class TriviaGameHost {
       correctAnswer: correctAnswer,
       isRevealed: false,
       startTime: this.questionStartTime,
-      questionNumber: this.currentQuestionIndex + 1
+      questionNumber: this.currentQuestionIndex + 1,
+      timeLimit: this.gameSettings.questionTime
     };
 
     try {
-      // Update question and reset player answers
-      await set(ref(db, `games/${this.gameCode}/currentQuestion`), questionData);
-      await update(this.gameRef, { state: 'question' });
+      // CRITICAL FIX: Set game state to 'question' AND update current question
+      const updates = {
+        state: 'question',
+        currentQuestion: questionData
+      };
       
       // Reset all player answers
-      const playerUpdates = {};
       Object.keys(this.players).forEach(playerId => {
-        playerUpdates[`players/${playerId}/answer`] = null;
-        playerUpdates[`players/${playerId}/answerTime`] = null;
+        updates[`players/${playerId}/answer`] = null;
+        updates[`players/${playerId}/answerTime`] = null;
       });
-      await update(this.gameRef, playerUpdates);
+
+      await update(this.gameRef, updates);
+      
+      // Update local state immediately
+      this.gameState = 'question';
 
       // Update UI
       this.updateQuestionUI(questionData);
-      this.startTimer();
+      
+      // Start timer with delay to ensure UI is ready
+      setTimeout(() => {
+        if (this.gameState === 'question' && !this.timerRunning) {
+          this.startTimer();
+        }
+      }, 100);
 
     } catch (error) {
       console.error('Error loading question:', error);
@@ -291,20 +320,61 @@ class TriviaGameHost {
       '<div class="waiting-for-answers">Waiting for player responses...</div>';
   }
 
+  clearAllTimers() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+    this.timerRunning = false;
+    this.timerSeconds = 0;
+    
+    // Clear visual timer elements
+    const timerEl = document.getElementById('question-timer');
+    if (timerEl) {
+      timerEl.classList.remove('urgent');
+      timerEl.textContent = '0';
+    }
+  }
+
   startTimer() {
+    // Always clear first
+    this.clearAllTimers();
+    
+    // Double-check game state
+    if (this.gameState !== 'question') {
+      console.warn('Attempted to start timer but game state is:', this.gameState);
+      return;
+    }
+    
     this.timerSeconds = this.gameSettings.questionTime;
-    document.getElementById('question-timer').textContent = this.timerSeconds;
+    this.timerRunning = true;
+    this.timerStartTime = Date.now();
+    
+    const timerEl = document.getElementById('question-timer');
+    if (!timerEl) {
+      console.error('Timer element not found');
+      return;
+    }
+    
+    timerEl.textContent = this.timerSeconds;
+    timerEl.classList.remove('urgent');
     
     this.timerInterval = setInterval(() => {
-      this.timerSeconds--;
-      const timerEl = document.getElementById('question-timer');
-      timerEl.textContent = this.timerSeconds;
+      // Safety check - if game state changed, stop timer
+      if (this.gameState !== 'question' || !this.timerRunning) {
+        this.clearAllTimers();
+        return;
+      }
       
-      // Add urgency styling
-      if (this.timerSeconds <= 10) {
-        timerEl.classList.add('urgent');
-      } else {
-        timerEl.classList.remove('urgent');
+      this.timerSeconds--;
+      
+      if (timerEl) {
+        timerEl.textContent = this.timerSeconds;
+        
+        // Add urgency styling
+        if (this.timerSeconds <= 10) {
+          timerEl.classList.add('urgent');
+        }
       }
       
       if (this.timerSeconds <= 0) {
@@ -314,20 +384,30 @@ class TriviaGameHost {
   }
 
   timeUp() {
-    clearInterval(this.timerInterval);
-    this.revealAnswers();
+    if (!this.timerRunning) return;
+    
+    console.log('Timer expired');
+    this.clearAllTimers();
+    
+    // Add delay to prevent race condition with player answers
+    setTimeout(() => {
+      if (this.gameState === 'question') {
+        this.revealAnswers();
+      }
+    }, 100);
   }
 
   checkAllPlayersAnswered() {
-    if (this.gameState !== 'question') return;
+    if (this.gameState !== 'question' || !this.timerInterval) return;
     
     const playerList = Object.values(this.players);
     const allAnswered = playerList.length > 0 && 
-      playerList.every(player => player.answer !== null);
+      playerList.every(player => player.answer !== null && player.answer !== undefined);
     
-    if (allAnswered && this.timerInterval) {
+    if (allAnswered) {
       clearInterval(this.timerInterval);
-      setTimeout(() => this.revealAnswers(), 1000); // Short delay before revealing
+      this.timerInterval = null;
+      setTimeout(() => this.revealAnswers(), 1000);
     }
   }
 
@@ -352,7 +432,7 @@ class TriviaGameHost {
           // Speed bonus
           if (player.answerTime && questionData.startTime) {
             const responseTime = (player.answerTime - questionData.startTime) / 1000;
-            if (responseTime <= 10) { // Quick response bonus
+            if (responseTime <= 10) {
               pointsEarned += Math.floor(this.gameSettings.pointsForSpeed * (1 - responseTime / 10));
             }
           }
@@ -370,14 +450,14 @@ class TriviaGameHost {
         });
       });
 
-      // Update scores
-      await update(this.gameRef, scoreUpdates);
+      // Update scores and mark question as revealed
+      const updates = {
+        ...scoreUpdates,
+        [`currentQuestion/isRevealed`]: true,
+        [`currentQuestion/correctAnswer`]: questionData.correctAnswer
+      };
       
-      // Mark question as revealed
-      await update(ref(db, `games/${this.gameCode}/currentQuestion`), { 
-        isRevealed: true,
-        correctAnswer: questionData.correctAnswer 
-      });
+      await update(this.gameRef, updates);
 
       // Update UI
       this.displayResults(playerAnswers, questionData);
@@ -429,7 +509,11 @@ class TriviaGameHost {
   }
 
   nextQuestion() {
-    clearInterval(this.timerInterval);
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+    
     if (this.currentQuestionIndex < this.deck.length) {
       this.loadNextQuestion();
     } else {
@@ -440,6 +524,7 @@ class TriviaGameHost {
   async endGame() {
     try {
       await update(this.gameRef, { state: 'gameover', endTime: serverTimestamp() });
+      this.gameState = 'gameover'; // Update local state
       
       const finalScores = Object.values(this.players)
         .sort((a, b) => (b.score || 0) - (a.score || 0));
@@ -485,7 +570,6 @@ class TriviaGameHost {
   }
 
   generateOptions(question) {
-    // Simple option generation - can be enhanced based on question type
     if (question.challenge.toLowerCase().includes('capital')) {
       return ['Paris', 'London', 'Berlin', 'Madrid'];
     }
@@ -528,16 +612,25 @@ class TriviaGameHost {
   }
 
   cleanup() {
-    // Remove all Firebase listeners
+    // Clear all intervals
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+    
+    // Remove all Firebase listeners with error handling
     this.listeners.forEach(({ ref, listener }) => {
-      off(ref, listener);
+      try {
+        off(ref, listener);
+      } catch (error) {
+        console.warn('Error removing listener:', error);
+      }
     });
     this.listeners = [];
     
-    // Clear intervals
-    if (this.timerInterval) {
-      clearInterval(this.timerInterval);
-    }
+    // Clear game state
+    this.gameState = 'ended';
+    this.players = {};
   }
 }
 

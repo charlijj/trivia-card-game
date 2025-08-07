@@ -21,6 +21,7 @@ class TriviaGamePlayer {
     this.listeners = [];
     this.hasAnswered = false;
     this.connectionLost = false;
+    this.currentQuestion = null; // Track current question
 
     this.init();
   }
@@ -185,22 +186,22 @@ class TriviaGamePlayer {
   }
 
   validateInputs(name, code) {
-    if (!name || name.length < 2) {
+    if (!name || typeof name !== 'string' || name.trim().length < 2) {
       this.showNotification('Please enter a name (at least 2 characters).', 'error');
       return false;
     }
 
-    if (name.length > 20) {
+    if (name.trim().length > 20) {
       this.showNotification('Name must be 20 characters or less.', 'error');
       return false;
     }
 
-    if (!code || code.length !== 6) {
+    if (!code || typeof code !== 'string' || code.trim().length !== 6) {
       this.showNotification('Please enter a valid 6-character game code.', 'error');
       return false;
     }
 
-    if (!/^[A-Z0-9]+$/.test(code)) {
+    if (!/^[A-Z0-9]+$/.test(code.trim())) {
       this.showNotification('Game code can only contain letters and numbers.', 'error');
       return false;
     }
@@ -223,59 +224,97 @@ class TriviaGamePlayer {
   }
 
   setupGameListeners() {
-    // Listen for game state changes
-    const gameStateRef = ref(db, `games/${this.gameCode}/state`);
-    const stateListener = onValue(gameStateRef, (snapshot) => {
-      this.gameState = snapshot.val();
-      this.handleGameStateChange();
-    });
-    this.listeners.push({ ref: gameStateRef, listener: stateListener });
+    // Clear any existing listeners first
+    this.cleanup();
+    
+    try {
+      // CRITICAL FIX: Listen for game state changes
+      const gameStateRef = ref(db, `games/${this.gameCode}/state`);
+      const stateListener = onValue(gameStateRef, (snapshot) => {
+        const newState = snapshot.val();
+        console.log('Game state changed to:', newState);
+        
+        if (newState && newState !== this.gameState) {
+          this.gameState = newState;
+          this.handleGameStateChange();
+        }
+      }, (error) => {
+        console.error('Game state listener error:', error);
+        this.showNotification('Connection error. Trying to reconnect...', 'warning');
+      });
+      this.listeners.push({ ref: gameStateRef, listener: stateListener });
 
-    // Listen for current question changes
-    const questionRef = ref(db, `games/${this.gameCode}/currentQuestion`);
-    const questionListener = onValue(questionRef, (snapshot) => {
-      const question = snapshot.val();
-      if (question) {
-        this.handleNewQuestion(question);
-      }
-    });
-    this.listeners.push({ ref: questionRef, listener: questionListener });
+      // CRITICAL FIX: Listen for current question changes
+      const questionRef = ref(db, `games/${this.gameCode}/currentQuestion`);
+      const questionListener = onValue(questionRef, (snapshot) => {
+        const question = snapshot.val();
+        console.log('Question data received:', question);
+        
+        if (question && this.gameState === 'question') {
+          this.currentQuestion = question;
+          this.handleNewQuestion(question);
+        }
+      }, (error) => {
+        console.error('Question listener error:', error);
+      });
+      this.listeners.push({ ref: questionRef, listener: questionListener });
 
-    // Listen for player's own score updates
-    const scoreRef = ref(db, `games/${this.gameCode}/players/${this.playerId}/score`);
-    const scoreListener = onValue(scoreRef, (snapshot) => {
-      this.currentScore = snapshot.val() || 0;
-      this.updateScoreDisplay();
-    });
-    this.listeners.push({ ref: scoreRef, listener: scoreListener });
+      // Listen for players changes (for lobby display)
+      const playersRef = ref(db, `games/${this.gameCode}/players`);
+      const playersListener = onValue(playersRef, (snapshot) => {
+        const players = snapshot.val() || {};
+        
+        if (this.gameState === 'lobby') {
+          this.updateLobbyDisplay(players);
+        }
+        
+        // Update current player's score
+        if (players[this.playerId]) {
+          this.currentScore = players[this.playerId].score || 0;
+          this.updateScoreDisplay();
+        }
+      }, (error) => {
+        console.error('Players listener error:', error);
+      });
+      this.listeners.push({ ref: playersRef, listener: playersListener });
 
-    // Listen for other players (for lobby)
-    const playersRef = ref(db, `games/${this.gameCode}/players`);
-    const playersListener = onValue(playersRef, (snapshot) => {
-      if (this.gameState === 'lobby') {
-        this.updateLobbyDisplay(snapshot.val() || {});
-      }
-    });
-    this.listeners.push({ ref: playersRef, listener: playersListener });
+    } catch (error) {
+      console.error('Error setting up listeners:', error);
+      this.showNotification('Failed to connect to game.', 'error');
+    }
   }
 
   handleGameStateChange() {
+    console.log('Handling game state change to:', this.gameState);
     const statusEl = document.getElementById('answer-feedback');
     
     switch(this.gameState) {
       case 'lobby':
-        statusEl.textContent = 'Waiting for host to start the game...';
-        statusEl.className = 'status-waiting';
+        if (statusEl) {
+          statusEl.textContent = 'Waiting for host to start the game...';
+          statusEl.className = 'status-waiting';
+        }
         break;
+        
       case 'starting':
-        statusEl.textContent = 'Game starting soon!';
-        statusEl.className = 'status-starting';
+        if (statusEl) {
+          statusEl.textContent = 'Game starting soon!';
+          statusEl.className = 'status-starting';
+        }
         this.showStartingAnimation();
         break;
+        
       case 'question':
-        statusEl.textContent = '';
-        statusEl.className = '';
+        if (statusEl) {
+          statusEl.textContent = '';
+          statusEl.className = '';
+        }
+        // If we have current question data, display it immediately
+        if (this.currentQuestion) {
+          this.handleNewQuestion(this.currentQuestion);
+        }
         break;
+        
       case 'gameover':
         this.handleGameOver();
         break;
@@ -301,13 +340,18 @@ class TriviaGamePlayer {
   }
 
   handleNewQuestion(question) {
+    console.log('Handling new question:', question);
     this.hasAnswered = false;
     
     // Reset UI
     document.getElementById('player-question-text').textContent = question.questionText;
     document.getElementById('player-question-number').textContent = question.questionNumber || '?';
-    document.getElementById('answer-feedback').textContent = '';
-    document.getElementById('answer-feedback').className = '';
+    
+    const feedbackEl = document.getElementById('answer-feedback');
+    if (feedbackEl) {
+      feedbackEl.textContent = '';
+      feedbackEl.className = '';
+    }
 
     // Create answer options
     const optionsHtml = question.options.map(option => 
@@ -333,15 +377,22 @@ class TriviaGamePlayer {
 
     // Add visual timer if question has start time
     if (question.startTime) {
-      this.startVisualTimer(question.startTime);
+      this.startVisualTimer(question.startTime, question.timeLimit || 30);
     }
   }
 
   async submitAnswer(selectedBtn) {
-    if (this.hasAnswered) return;
+    if (this.hasAnswered || this.gameState !== 'question') {
+      console.log('Cannot submit answer:', { hasAnswered: this.hasAnswered, gameState: this.gameState });
+      return;
+    }
 
     const selectedAnswer = selectedBtn.dataset.answer;
     const answerTime = Date.now();
+
+    // Set flag immediately to prevent double submission
+    this.hasAnswered = true;
+    selectedBtn.disabled = true;
 
     try {
       // Update player's answer in database
@@ -350,53 +401,70 @@ class TriviaGamePlayer {
         answerTime: answerTime
       });
 
-      this.hasAnswered = true;
+      console.log('Answer submitted successfully:', selectedAnswer);
 
-      // Update UI
+      // Update UI only after successful submission
       selectedBtn.classList.add('selected');
-      selectedBtn.disabled = true;
       
       // Disable all other buttons
       document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.disabled = true;
         if (btn !== selectedBtn) {
-          btn.disabled = true;
           btn.classList.add('disabled');
         }
       });
 
       // Show feedback
       const feedbackEl = document.getElementById('answer-feedback');
-      feedbackEl.textContent = `✅ Answer submitted: ${selectedAnswer}`;
-      feedbackEl.className = 'status-submitted';
+      if (feedbackEl) {
+        feedbackEl.textContent = `✅ Answer submitted: ${selectedAnswer}`;
+        feedbackEl.className = 'status-submitted';
+      }
 
-      // Add submission animation
       selectedBtn.classList.add('submitted');
 
     } catch (error) {
       console.error('Error submitting answer:', error);
+      this.hasAnswered = false; // Reset flag on error
+      selectedBtn.disabled = false;
       this.showNotification('Failed to submit answer. Please try again.', 'error');
     }
   }
 
-  startVisualTimer(startTime) {
+  startVisualTimer(startTime, timeLimit = 30) {
     const timerEl = document.getElementById('player-question-number');
-    let timeLeft = 30 - Math.floor((Date.now() - startTime) / 1000);
+    let timeLeft = timeLimit - Math.floor((Date.now() - startTime) / 1000);
     
-    if (timeLeft <= 0) return;
-
-    const timerInterval = setInterval(() => {
-      timeLeft--;
-      if (timeLeft > 0) {
-        timerEl.textContent = `⏱️ ${timeLeft}s`;
-        
-        // Add urgency styling
-        if (timeLeft <= 10) {
-          timerEl.classList.add('urgent');
-        }
-      } else {
-        clearInterval(timerInterval);
+    if (timeLeft <= 0) {
+      if (timerEl) {
         timerEl.textContent = '⏰ Time\'s up!';
         timerEl.classList.add('times-up');
+      }
+      return;
+    }
+
+    // Clear any existing timer
+    if (this.visualTimerInterval) {
+      clearInterval(this.visualTimerInterval);
+    }
+
+    this.visualTimerInterval = setInterval(() => {
+      timeLeft--;
+      if (timeLeft > 0) {
+        if (timerEl) {
+          timerEl.textContent = `⏱️ ${timeLeft}s`;
+          
+          // Add urgency styling
+          if (timeLeft <= 10) {
+            timerEl.classList.add('urgent');
+          }
+        }
+      } else {
+        clearInterval(this.visualTimerInterval);
+        if (timerEl) {
+          timerEl.textContent = '⏰ Time\'s up!';
+          timerEl.classList.add('times-up');
+        }
         
         // Disable all buttons if player hasn't answered
         if (!this.hasAnswered) {
@@ -420,32 +488,36 @@ class TriviaGamePlayer {
 
     // Show result feedback
     const feedbackEl = document.getElementById('answer-feedback');
-    feedbackEl.innerHTML = `
-      <div class="question-result">
-        <strong>Correct Answer:</strong> ${this.escapeHtml(question.correctAnswer)}
-      </div>
-    `;
-    feedbackEl.className = 'status-revealed';
+    if (feedbackEl) {
+      feedbackEl.innerHTML = `
+        <div class="question-result">
+          <strong>Correct Answer:</strong> ${this.escapeHtml(question.correctAnswer)}
+        </div>
+      `;
+      feedbackEl.className = 'status-revealed';
+    }
   }
 
   updateLobbyDisplay(players) {
     const playerList = Object.values(players);
     const lobbyInfo = document.getElementById('answer-feedback');
     
-    lobbyInfo.innerHTML = `
-      <div class="lobby-info">
-        <h3>Players in Lobby (${playerList.length}/8):</h3>
-        <div class="player-list">
-          ${playerList.map(player => `
-            <div class="lobby-player ${player.name === this.playerName ? 'self' : ''}">
-              ${this.escapeHtml(player.name)}
-              ${player.name === this.playerName ? ' (You)' : ''}
-            </div>
-          `).join('')}
+    if (lobbyInfo) {
+      lobbyInfo.innerHTML = `
+        <div class="lobby-info">
+          <h3>Players in Lobby (${playerList.length}/8):</h3>
+          <div class="player-list">
+            ${playerList.map(player => `
+              <div class="lobby-player ${player.name === this.playerName ? 'self' : ''}">
+                ${this.escapeHtml(player.name)}
+                ${player.name === this.playerName ? ' (You)' : ''}
+              </div>
+            `).join('')}
+          </div>
+          <p class="lobby-status">Waiting for host to start the game...</p>
         </div>
-        <p class="lobby-status">Waiting for host to start the game...</p>
-      </div>
-    `;
+      `;
+    }
   }
 
   updateScoreDisplay() {
@@ -455,7 +527,12 @@ class TriviaGamePlayer {
       scoreDisplay = document.createElement('div');
       scoreDisplay.id = 'player-score';
       scoreDisplay.className = 'player-score-display';
-      document.querySelector('.game-header').appendChild(scoreDisplay);
+      
+      // Try to find game header to append to
+      const gameHeader = document.querySelector('.game-header');
+      if (gameHeader) {
+        gameHeader.appendChild(scoreDisplay);
+      }
     }
     
     scoreDisplay.innerHTML = `
@@ -511,11 +588,14 @@ class TriviaGamePlayer {
         </div>
       `;
       
-      document.getElementById('answer-feedback').innerHTML = `
-        <div class="game-complete-message">
-          Thanks for playing! 🎉
-        </div>
-      `;
+      const feedbackEl = document.getElementById('answer-feedback');
+      if (feedbackEl) {
+        feedbackEl.innerHTML = `
+          <div class="game-complete-message">
+            Thanks for playing! 🎉
+          </div>
+        `;
+      }
 
       // Show celebration animation if player won
       if (playerRank === 1) {
@@ -525,7 +605,10 @@ class TriviaGamePlayer {
     } catch (error) {
       console.error('Error handling game over:', error);
       document.getElementById('player-question-text').textContent = 'Game ended';
-      document.getElementById('answer-feedback').textContent = 'Game completed!';
+      const feedbackEl = document.getElementById('answer-feedback');
+      if (feedbackEl) {
+        feedbackEl.textContent = 'Game completed!';
+      }
     }
   }
 
@@ -641,11 +724,22 @@ class TriviaGamePlayer {
     // Clear heartbeat
     if (this.heartbeatInterval) {
       clearInterval(this.heartbeatInterval);
+      this.heartbeatInterval = null;
     }
 
-    // Remove all Firebase listeners
+    // Clear visual timer
+    if (this.visualTimerInterval) {
+      clearInterval(this.visualTimerInterval);
+      this.visualTimerInterval = null;
+    }
+
+    // Remove all Firebase listeners with error handling
     this.listeners.forEach(({ ref, listener }) => {
-      off(ref, listener);
+      try {
+        off(ref, listener);
+      } catch (error) {
+        console.warn('Error removing listener:', error);
+      }
     });
     this.listeners = [];
 
@@ -657,7 +751,7 @@ class TriviaGamePlayer {
       }).catch(err => console.warn('Error updating disconnect status:', err));
     }
   }
-
+  
   // Handle page unload
   beforeUnload() {
     this.cleanup();

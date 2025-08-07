@@ -3,39 +3,96 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Join Trivia</title>
+  <title>Join Trivia Game</title>
   <link rel="stylesheet" href="style.css" />
-
 </head>
 <body>
-  <div class="container">
-    <div class="menu-card" id="join-screen">
-      <h1 class="game-title">Join Game</h1>
-      <input type="text" id="player-name" placeholder="Enter your name" class="btn"/>
-      <input type="text" id="game-code" placeholder="Enter game code" class="btn" />
-      <button class="btn btn-primary" id="join-btn">Join</button>
-    </div>
+  <div class="container center">
+    
+    <!-- Join Form -->
+    <form class="card card-comfortable" id="join-screen" style="width: 100%; max-width: 400px;">
+      <header class="card-header center">
+        <h1>🧠 Join Game</h1>
+      </header>
+      <div class="card-content stack">
 
-    <div class="game-content hidden" id="player-area">
-      <div class="game-header">
-        <div class="round-info">
-          <h2>Question <span id="player-question-number">1</span></h2>
-          <p id="player-question-text">Waiting for host...</p>
+        <div class="input-group">
+          <label class="label" for="player-name">Your Name</label>
+          <input
+            type="text"
+            id="player-name"
+            class="input"
+            placeholder="Enter your name"
+            maxlength="20"
+            required
+          />
+          <small class="help-text">2–20 characters</small>
+        </div>
+
+        <div class="input-group">
+          <label class="label" for="game-code">Game Code</label>
+          <input
+            type="text"
+            id="game-code"
+            class="input"
+            placeholder="Enter 6-character code"
+            maxlength="6"
+            style="text-transform: uppercase; text-align: center; font-family: ui-monospace, monospace; letter-spacing: 0.1em;"
+            required
+          />
+          <small class="help-text">Get this from your game host</small>
+        </div>
+
+        <button class="btn btn-primary btn-lg btn-full" id="join-btn" type="submit" disabled>
+          Join Game
+        </button>
+
+        <div class="center">
+          <a href="index.html" class="btn btn-ghost">Host a Game Instead</a>
         </div>
       </div>
+    </form>
 
-      <div class="game-content">
-        <div class="deck-container">
-          <div class="card">
-            <div class="card-content">
-              <div id="player-options-list"></div>
-            </div>
+    <!-- Player Game Area -->
+    <main class="stack hidden" id="player-area" style="width: 100%; max-width: 600px;">
+      <section class="card card-compact">
+        <div class="card-content cluster" style="justify-content: space-between; align-items: center;">
+          <div class="stack" style="gap: var(--space-xs);">
+            <h2 style="margin: 0;">Question <span id="player-question-number">1</span></h2>
+            <div id="player-status" class="status-badge status-info">Waiting for host...</div>
+          </div>
+          <div id="player-score" class="stack" style="align-items: flex-end; gap: var(--space-xs);">
+            <small style="color: var(--color-text-secondary);">Your Score</small>
+            <strong style="font-size: var(--text-xl); color: var(--color-accent);">0</strong>
           </div>
         </div>
-        <p id="answer-feedback"></p>
-      </div>
-    </div>
+      </section>
+
+      <section class="question-card card">
+        <div class="card-content stack">
+          <p id="player-question-text" class="question-text">Waiting for host...</p>
+          <div id="player-options-list" class="options-grid">
+            <!-- Options will be populated -->
+          </div>
+        </div>
+      </section>
+
+      <section class="card card-compact">
+        <div class="card-content">
+          <div id="answer-feedback" class="center" style="min-height: 60px;">
+            <!-- Feedback goes here -->
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <noscript>
+    <div style="text-align:center; color:red; font-weight:bold;">Please enable JavaScript to use this app.</div>
+  </noscript>
 
   <script type="module" src="script/firebase-config.js"></script>
   <script type="module" src="script/join.js"></script>

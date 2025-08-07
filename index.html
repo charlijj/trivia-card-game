@@ -2,260 +2,197 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta name="description" content="Host a multiplayer trivia game with real-time questions and scoring" />
-  <meta name="keywords" content="trivia, quiz, multiplayer, game, host, questions" />
-  <meta name="author" content="Trivia Game Platform" />
-  
-  <!-- Favicon and App Icons -->
-  <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico"> -->
-  <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"> -->
-  <!-- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"> -->
-  <!-- <link rel="manifest" href="/site.webmanifest"> -->
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Trivia Game Host" />
-  <meta property="og:description" content="Create and host multiplayer trivia games" />
-  <meta property="og:image" content="/og-image.png" />
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Trivia Game Host" />
-  <meta name="twitter:description" content="Create and host multiplayer trivia games" />
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trivia Host - Create Multiplayer Quiz Games</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="enhanced-styles.css" />
-  
-  <!-- Preload critical resources -->
-  <link href="script/firebase-config.js" as="script" type="module">
-  <link href="script/host.js" as="script" type="module">
 </head>
 <body>
-  <!-- Skip to main content for accessibility -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-  
-  <!-- Loading overlay -->
-  <!-- <div id="loading-overlay" class="loading-overlay" aria-hidden="true">
-    <div class="loading-spinner" role="status" aria-label="Loading game"></div>
-    <p>Loading game resources...</p>
-  </div>
-   -->
-  <!-- Main container -->
-  <div class="container" id="main-content" role="main">
-    
-    <!-- Header with branding -->
-    <header class="app-header" role="banner">
+  <a href="#main-content" class="sr-only">Skip to main content</a>
+
+  <div class="container" id="main-content">
+
+    <!-- Header -->
+    <header class="app-header">
       <h1 class="app-logo">🧠 Trivia Master</h1>
-      <nav class="app-nav" role="navigation" aria-label="Main navigation">
+      <nav class="app-nav">
         <a href="join.html" class="nav-link">Join Game</a>
-        <button class="help-btn" aria-label="Help and instructions">?</button>
+        <button class="btn btn-ghost btn-sm" id="help-btn" aria-label="Help and instructions">Help</button>
       </nav>
     </header>
 
-    <!-- Lobby/Host Setup Screen -->
-    <section class="menu-card" id="lobby-menu" aria-labelledby="lobby-title">
-      <h2 id="lobby-title" class="game-title">Host Game</h2>
-      
-      <!-- Game Settings Panel -->
-      <div class="game-settings" role="group" aria-labelledby="settings-title">
-        <h3 id="settings-title" class="settings-title">Game Settings</h3>
-        
-        <div class="setting-group">
-          <label for="question-count">Number of Questions:</label>
-          <select id="question-count" class="setting-input" aria-describedby="question-count-help">
-            <option value="5">5 Questions (Quick Game)</option>
-            <option value="10" selected>10 Questions (Standard)</option>
-            <option value="15">15 Questions (Extended)</option>
-            <option value="25">25 Questions (Full Deck)</option>
-          </select>
-          <small id="question-count-help" class="help-text">Choose how many questions to include</small>
-        </div>
-        
-        <div class="setting-group">
-          <label for="question-timer">Time Per Question:</label>
-          <select id="question-timer" class="setting-input" aria-describedby="timer-help">
-            <option value="15">15 seconds (Fast)</option>
-            <option value="30" selected>30 seconds (Standard)</option>
-            <option value="45">45 seconds (Relaxed)</option>
-            <option value="60">60 seconds (Extended)</option>
-          </select>
-          <small id="timer-help" class="help-text">How long players have to answer</small>
-        </div>
-        
-        <div class="setting-group">
-          <label for="category-filter">Category Focus:</label>
-          <select id="category-filter" class="setting-input" aria-describedby="category-help">
-            <option value="mixed" selected>Mixed Categories</option>
-            <option value="science">Science & Technology</option>
-            <option value="history">History & Culture</option>
-            <option value="entertainment">Entertainment & Sports</option>
-            <option value="geography">Geography & Nature</option>
-          </select>
-          <small id="category-help" class="help-text">Focus on specific topic areas</small>
-        </div>
-      </div>
-      
-      <!-- Game Creation -->
-      <div class="game-creation">
-        <button id="create-game" class="btn btn-primary btn-large" aria-describedby="create-help">
-          <span class="btn-icon">🎮</span>
-          Create Game
-        </button>
-        <small id="create-help" class="help-text">Generate a game code for players to join</small>
-      </div>
-      
-      <!-- Game Code Display -->
-      <div class="game-code-section" id="game-code-section" aria-live="polite">
-        <div class="game-code-display">
-          <label for="game-code-text">Game Code:</label>
-          <div class="code-container">
-            <span id="game-code" class="game-code-text" aria-live="polite">----</span>
-            <button id="copy-code" class="copy-btn" aria-label="Copy game code" title="Copy to clipboard">
-              📋
-            </button>
+    <!-- Game Setup -->
+    <main class="stack" id="lobby-menu">
+
+      <section class="card card-comfortable">
+        <header class="card-header">
+          <h2>Host New Game</h2>
+        </header>
+        <div class="card-content stack">
+
+          <div class="input-group">
+            <label class="label" for="question-count">Number of Questions</label>
+            <select id="question-count" class="input">
+              <option value="5">5 Questions (Quick Game)</option>
+              <option value="10" selected>10 Questions (Standard)</option>
+              <option value="15">15 Questions (Extended)</option>
+              <option value="25">25 Questions (Full Deck)</option>
+            </select>
+            <small class="help-text">Choose how many questions to include</small>
           </div>
+
+          <div class="input-group">
+            <label class="label" for="question-timer-setting">Time Per Question</label>
+            <select id="question-timer-setting" class="input">
+              <option value="15">15 seconds (Fast)</option>
+              <option value="30" selected>30 seconds (Standard)</option>
+              <option value="45">45 seconds (Relaxed)</option>
+              <option value="60">60 seconds (Extended)</option>
+            </select>
+            <small class="help-text">How long players have to answer</small>
+          </div>
+
+          <div class="input-group">
+            <label class="label" for="category-filter">Category Focus</label>
+            <select id="category-filter" class="input">
+              <option value="mixed" selected>Mixed Categories</option>
+              <option value="science">Science & Technology</option>
+              <option value="history">History & Culture</option>
+              <option value="entertainment">Entertainment & Sports</option>
+              <option value="geography">Geography & Nature</option>
+            </select>
+            <small class="help-text">Focus on specific topic areas</small>
+          </div>
+
+          <button id="create-game" class="btn btn-primary btn-lg btn-full">🎮 Create Game</button>
         </div>
-        <p class="code-instructions">Share this code with players so they can join your game</p>
-      </div>
-      
+      </section>
+
+      <!-- Game Code -->
+      <section class="card card-comfortable hidden" id="game-code-section">
+        <div class="card-content stack center">
+          <div class="input-group center">
+            <label class="label">Game Code:</label>
+            <div class="cluster">
+              <div id="game-code" class="game-code">----</div>
+              <button id="copy-code" class="btn btn-secondary" title="Copy to clipboard">📋 Copy</button>
+            </div>
+          </div>
+          <p class="help-text">Share this code with players so they can join your game</p>
+        </div>
+      </section>
+
       <!-- Player Lobby -->
-      <div class="lobby-section">
-        <div class="lobby-header">
+      <section class="card card-comfortable hidden" id="lobby-section">
+        <header class="card-header cluster" style="justify-content: space-between;">
           <h3>Players in Lobby</h3>
-          <div class="lobby-controls">
-            <button id="refresh-lobby" class="btn btn-secondary btn-small" aria-label="Refresh player list">
-              🔄 Refresh
-            </button>
-          </div>
-        </div>
-        <div id="lobby-player-list" role="region" aria-live="polite" aria-label="Player list">
-          <div class="no-players">Waiting for players to join...</div>
-        </div>
-      </div>
-      
-      <!-- Start Game Button -->
-      <button id="start-game" class="btn btn-success btn-large hidden" disabled aria-describedby="start-help">
-        <span class="btn-icon">🚀</span>
-        Start Game
-      </button>
-      <small id="start-help" class="help-text">Need at least 1 player to start</small>
-    </section>
-
-    <!-- Game Screen -->
-    <section class="game-content hidden" id="game-area" aria-labelledby="game-title">
-      
-      <!-- Game Header -->
-      <header class="game-header" role="banner">
-        <div class="round-info">
-          <h2 id="game-title">
-            Question <span id="question-number" aria-live="polite">1</span>
-            <span class="question-progress"> / <span id="total-questions">10</span></span>
-          </h2>
-          <div class="question-container">
-            <p id="question-text" class="question-text" aria-live="polite">Loading question...</p>
-          </div>
-          <div class="timer-container">
-            <span class="timer-label">Time:</span>
-            <span id="question-timer" class="timer-display" aria-live="polite">30</span>s
-            <div class="timer-bar">
-              <div id="timer-progress" class="timer-fill"></div>
+          <button id="refresh-lobby" class="btn btn-ghost btn-sm">🔄 Refresh</button>
+        </header>
+        <div class="card-content">
+          <div id="lobby-player-list" class="stack">
+            <div class="center" style="padding: var(--space-xl); color: var(--color-text-secondary);">
+              Waiting for players to join...
             </div>
           </div>
         </div>
-        
-        <div class="game-controls">
-          <button class="btn btn-secondary" id="next-question" aria-label="Advance to next question">
-            Next Question ⏭️
-          </button>
-          <button class="btn btn-outline" id="show-scores" aria-label="Show current scores">
-            📊 Scores
-          </button>
-          <button class="btn btn-outline" id="pause-game" aria-label="Pause game">
-            ⏸️ Pause
-          </button>
+        <div class="card-footer">
+          <button id="start-game" class="btn btn-success btn-lg btn-full" disabled>🚀 Start Game</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Game Area -->
+    <main class="stack hidden" id="game-area">
+
+      <!-- Header Info -->
+      <header class="card card-comfortable">
+        <div class="stack">
+          <h2>Question <span id="question-number">1</span> / <span id="total-questions">10</span></h2>
+          <div class="timer" id="timer-display">
+            <div class="timer-circle">⏱️</div>
+            <span id="question-timer">30</span>s
+          </div>
+        </div>
+
+        <div class="cluster">
+          <button class="btn btn-secondary btn-sm" id="next-question">Next ⏭️</button>
+          <button class="btn btn-ghost btn-sm" id="show-scores">📊 Scores</button>
+          <button class="btn btn-ghost btn-sm" id="pause-game">⏸️ Pause</button>
         </div>
       </header>
 
-      <!-- Main Game Content -->
-      <main class="game-main">
-        
-        <!-- Question Display -->
-        <div class="question-display-container">
-          <div class="card question-card" role="article" aria-labelledby="current-question">
-            <div class="card-header">
-              <span id="question-category" class="category-badge">General Knowledge</span>
-              <span id="question-difficulty" class="difficulty-badge">Medium</span>
-            </div>
-            <div class="card-content">
-              <div id="options-list" role="group" aria-labelledby="question-text" class="options-grid">
-                <!-- Options will be populated by JavaScript -->
-              </div>
+      <!-- Question Display -->
+      <section class="question-card card">
+        <div class="card-content stack">
+          <p id="question-text" class="question-text">Loading question...</p>
+          <div id="options-list" class="options-grid">
+            <!-- Options inserted via JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Player Answer Progress -->
+      <aside class="card card-comfortable">
+        <header class="card-header">
+          <h3>Player Responses</h3>
+        </header>
+        <div class="card-content stack">
+          <div class="cluster" style="justify-content: center;">
+            <span class="status-badge status-info">
+              <span id="answered-count">0</span> / <span id="total-players">0</span> answered
+            </span>
+          </div>
+          <div id="player-answers" class="player-list">
+            <div class="center" style="padding: var(--space-lg); color: var(--color-text-secondary);">
+              Waiting for player responses...
             </div>
           </div>
         </div>
+      </aside>
+    </main>
 
-        <!-- Player Progress Section -->
-        <aside class="round-progress" role="complementary" aria-labelledby="progress-title">
-          <h3 id="progress-title">Player Responses</h3>
-          <div class="progress-container">
-            <div class="response-summary" aria-live="polite">
-              <span id="answered-count">0</span> / <span id="total-players">0</span> players answered
-            </div>
-            <div id="player-answers" class="player-responses" role="region" aria-live="polite">
-              <div class="waiting-message">Waiting for player responses...</div>
-            </div>
+    <!-- Help Modal -->
+    <div id="help-modal" class="modal hidden">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2 class="modal-title">How to Host a Game</h2>
+          <button class="modal-close" aria-label="Close help">×</button>
+        </header>
+        <div class="modal-body stack">
+          <div class="stack">
+            <h3>Getting Started</h3>
+            <ol style="padding-left: var(--space-lg);">
+              <li>Configure your game settings</li>
+              <li>Click "Create Game"</li>
+              <li>Share the game code with players</li>
+              <li>Start the game when ready</li>
+            </ol>
           </div>
-        </aside>
-        
-      </main>
-    </section>
-  </div>
-
-  <!-- Help Modal -->
-  <dialog id="help-modal" class="modal" aria-labelledby="help-title">
-    <div class="modal-content">
-      <header class="modal-header">
-        <h2 id="help-title">How to Host a Game</h2>
-        <button class="modal-close" aria-label="Close help">×</button>
-      </header>
-      <div class="modal-body">
-        <ol class="help-steps">
-          <li><strong>Configure Settings:</strong> Choose your preferred game length and difficulty</li>
-          <li><strong>Create Game:</strong> Click "Create Game" to generate a unique game code</li>
-          <li><strong>Share Code:</strong> Give the 6-character code to players so they can join</li>
-          <li><strong>Wait for Players:</strong> Players will appear in the lobby as they join</li>
-          <li><strong>Start Game:</strong> Once you have enough players, click "Start Game"</li>
-          <li><strong>Manage Game:</strong> Control question timing and view player progress</li>
-        </ol>
-        <div class="help-tips">
-          <h3>Pro Tips:</h3>
-          <ul>
-            <li>Use the spacebar to quickly advance to the next question</li>
-            <li>Click the copy button to easily share the game code</li>
-            <li>Monitor player responses in real-time</li>
-            <li>Games auto-advance when all players have answered</li>
-          </ul>
+          <div class="stack">
+            <h3>During the Game</h3>
+            <ul style="padding-left: var(--space-lg);">
+              <li>Monitor answers in real time</li>
+              <li>Advance with spacebar or button</li>
+              <li>Pause or show scores anytime</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </dialog>
 
-  <!-- Toast notification container -->
-  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+    <!-- Toast -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+  </div>
 
   <!-- Scripts -->
   <script type="module" src="script/firebase-config.js"></script>
   <script type="module" src="script/host.js"></script>
-  
-  <!-- Service Worker Registration -->
+
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
-          .then(registration => console.log('SW registered'))
-          .catch(error => console.log('SW registration failed'));
+          .then(reg => console.log('SW registered'))
+          .catch(err => console.warn('SW registration failed', err));
       });
     }
   </script>
